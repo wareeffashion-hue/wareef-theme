@@ -5,6 +5,8 @@ import './components/w-faq.js';
 import './components/w-hero-slider.js';
 import './components/w-lookbook.js';
 import './components/w-new-arrivals-rail.js';
+import './components/w-pd-gallery.js';
 import './components/w-products-tabs.js';
+import './components/w-sizer.js';
 import './components/w-stories.js';
 import './components/w-video-feature.js';

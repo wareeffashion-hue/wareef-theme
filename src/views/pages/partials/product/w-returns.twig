@@ -1,0 +1,34 @@
+{# Wareef: returns & exchange promise under the buy button: a days ring, three steps and the policy on demand. #}
+{% if theme.settings.get('w_returns', true) %}
+  {% set r_days = theme.settings.get('w_returns_days', 7)|default(7) %}
+  {% set r_title = theme.settings.get('w_returns_title') %}
+  {% set r_title = r_title is iterable ? (r_title[language.code]|default(r_title|first)) : r_title %}
+  {% set r_steps = theme.settings.get('w_returns_steps') %}
+  {% set r_steps = r_steps is iterable ? (r_steps[language.code]|default(r_steps|first)) : r_steps %}
+  {% set r_policy = theme.settings.get('w_returns_policy') %}
+  {% set r_policy = r_policy is iterable ? (r_policy[language.code]|default(r_policy|first)) : r_policy %}
+  {% set r_link = theme.settings.get('w_returns_link') %}
+  {% set r_link = r_link is iterable ? (r_link.url|default(r_link|first)) : r_link %}
+  <details class="w-returns" data-w-reveal>
+    <summary class="w-returns__head">
+      <span class="w-returns__ring" style="--p: {{ min(r_days, 30) / 30 }}" aria-hidden="true">
+        <svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19"/><circle class="w-returns__arc" cx="22" cy="22" r="19" pathLength="100"/></svg>
+        <b>{{ r_days }}</b>
+      </span>
+      <span class="w-returns__text">
+        <strong>{{ r_title|default(trans('blocks.wareef.returns_title')) }}</strong>
+        <small>{{ trans('blocks.wareef.returns_within', {'days': r_days}) }}</small>
+      </span>
+      <svg class="w-returns__chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+    </summary>
+    <div class="w-returns__body">
+      {% if r_steps %}
+        <ol class="w-returns__steps">
+          {% for step in r_steps|split('|') %}{% if step|trim %}<li><i>{{ loop.index }}</i><span>{{ step|trim }}</span></li>{% endif %}{% endfor %}
+        </ol>
+      {% endif %}
+      {% if r_policy %}<p class="w-returns__policy">{{ r_policy|nl2br }}</p>{% endif %}
+      {% if r_link %}<a class="w-link" href="{{ r_link }}">{{ trans('blocks.wareef.returns_full') }}</a>{% endif %}
+    </div>
+  </details>
+{% endif %}

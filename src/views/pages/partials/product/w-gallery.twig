@@ -1,0 +1,32 @@
+{# Wareef: desktop gallery for the editorial (stacked) and runway (full-width rail) layouts.
+   Mobile keeps Salla's swipe slider; this markup only shows from md up. #}
+{% set w_index = theme.settings.get('w_pd_index', true) %}
+{% set total = product.images|length %}
+<div class="w-gallery w-gallery--{{ layout }}" data-w="w-pd-gallery" data-total="{{ total }}">
+  {% if layout == 'runway' %}
+    <button type="button" class="w-gallery__nav w-gallery__nav--prev" data-dir="-1" aria-label="{{ trans('blocks.wareef.previous') }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+    <button type="button" class="w-gallery__nav w-gallery__nav--next" data-dir="1" aria-label="{{ trans('blocks.wareef.next') }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>
+  {% endif %}
+  <div class="w-gallery__track">
+    {% for image in product.images %}
+      {% set video = image.video_url is iterable ? image.video_url|first : image.video_url %}
+      <a class="w-gallery__item{{ video ? ' is-video' : '' }}"
+         data-fslightbox="product_{{ product.id }}_w"
+         {% if video %}data-type="{{ image.video_type ?? 'video' }}"{% endif %}
+         href="{{ video|default(image.url) }}"
+         data-index="{{ loop.index }}"
+         aria-label="{{ image.alt|default(product.name) }} {{ loop.index }}/{{ total }}">
+        <img src="{{ image.url }}" alt="{{ image.alt|default(product.name) }}" {{ loop.first ? 'fetchpriority="high"' : 'loading="lazy"' }}>
+        {% if video %}<span class="w-gallery__play" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>{% endif %}
+        {% if w_index %}<span class="w-gallery__no" aria-hidden="true">{{ '%02d'|format(loop.index) }}</span>{% endif %}
+      </a>
+    {% endfor %}
+  </div>
+  {% if w_index and total > 1 %}
+    <div class="w-gallery__meter" aria-hidden="true">
+      <b class="w-gallery__current">01</b>
+      <span class="w-gallery__bar"><i></i></span>
+      <span>{{ '%02d'|format(total) }}</span>
+    </div>
+  {% endif %}
+</div>

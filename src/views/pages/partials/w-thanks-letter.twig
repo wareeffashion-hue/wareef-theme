@@ -1,0 +1,61 @@
+{# Wareef thank-you "letter": a sealed card with the merchant's note and signature, the order number,
+   a four-step order journey and a WhatsApp share. Texts come from theme settings. #}
+{% set t_title = theme.settings.get('w_thanks_title') %}
+{% set t_title = t_title is iterable ? (t_title[language.code]|default(t_title|first)) : t_title %}
+{% set t_note = theme.settings.get('w_thanks_note') %}
+{% set t_note = t_note is iterable ? (t_note[language.code]|default(t_note|first)) : t_note %}
+{% set t_sign = theme.settings.get('w_thanks_signature') %}
+{% set t_sign = t_sign is iterable ? (t_sign[language.code]|default(t_sign|first)) : t_sign %}
+{% set t_img = theme.settings.get('w_thanks_image') %}
+{% set share = short_share_message|default(share_message) %}
+<section class="w-thanks{{ t_img ? ' has-img' : '' }}" data-w-reveal>
+  <svg class="w-thanks__threads" viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M-20 220C180 120 320 260 520 170S860 40 1220 120"/>
+    <path d="M-20 260C220 190 380 290 600 210S940 110 1220 180"/>
+    <path d="M-20 180C160 80 360 200 560 120S900 10 1220 60"/>
+  </svg>
+  <div class="w-thanks__card">
+    <span class="w-thanks__seal" aria-hidden="true">
+      {% if store.logo %}<img src="{{ store.logo }}" alt="">{% else %}<b>{{ store.name|first }}</b>{% endif %}
+    </span>
+    <p class="w-thanks__eyebrow">{{ thank_you_title }}</p>
+    <h1 class="w-thanks__title" data-testid="store-thankyou-title">{{ t_title|default(thank_you_title) }}</h1>
+    {% if t_note %}<p class="w-thanks__note">{{ t_note|nl2br }}</p>{% endif %}
+    {% if t_sign %}
+      <p class="w-thanks__sign">
+        <svg viewBox="0 0 120 20" aria-hidden="true"><path d="M2 14c14-10 22 6 34-2s20-10 30 0 22 4 30-4 16 2 22 0"/></svg>
+        {{ t_sign }}
+      </p>
+    {% endif %}
+    <div class="w-thanks__order">
+      <span>{{ trans('blocks.wareef.thanks_order') }}</span>
+      <button type="button" class="w-thanks__ref" data-testid="store-thankyou-order-id" onclick="app.copyToClipboard(event)" data-content="{{ order.reference_id }}">
+        #{{ order.reference_id }}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" class="pointer-events-none"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg>
+      </button>
+    </div>
+    <div class="w-thanks__actions">
+      <button type="button" class="w-btn" data-testid="store-thankyou-order-details-btn" onclick="salla.order.show({order_id:'{{ order.id }}', url:'{{ order.url }}'})">{{ trans('blocks.wareef.thanks_details') }}</button>
+      {% if theme.settings.get('w_thanks_share', true) and share %}
+        <a class="w-btn w-btn--ghost" href="https://wa.me/?text={{ share|url_encode }}" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 19l1.4-4A8 8 0 1 1 9 18.6Z"/></svg>
+          {{ trans('blocks.wareef.thanks_share') }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+  {% if t_img %}
+    <figure class="w-thanks__photo"><img src="{{ t_img }}" alt="" loading="lazy"></figure>
+  {% endif %}
+  {% if theme.settings.get('w_thanks_journey', true) %}
+    <ol class="w-thanks__journey">
+      {% for i in 1..4 %}
+        <li class="{{ i == 1 ? 'is-done' : (i == 2 ? 'is-now' : '') }}" style="--i: {{ i }}">
+          <i aria-hidden="true">{% if i == 1 %}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m5 12 5 5 9-10"/></svg>{% else %}{{ i }}{% endif %}</i>
+          <span>{{ trans('blocks.wareef.thanks_step_' ~ i) }}</span>
+          {% if i == 2 %}<small>{{ trans('blocks.wareef.thanks_now') }}</small>{% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+  {% endif %}
+</section>

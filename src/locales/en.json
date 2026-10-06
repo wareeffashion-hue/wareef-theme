@@ -24,7 +24,26 @@
             "play": "Play",
             "pause": "Pause",
             "delivery": "Delivery",
-            "offer_ends": "Offer ends in"
+            "offer_ends": "Offer ends in",
+            "returns_title": "Easy exchange & returns",
+            "returns_within": "Within :days days of delivery",
+            "returns_full": "Read the full policy",
+            "thanks_order": "Order number",
+            "thanks_copied": "Copied",
+            "thanks_details": "Order details",
+            "thanks_share": "Share the joy",
+            "thanks_step_1": "Order confirmed",
+            "thanks_step_2": "Preparing your piece",
+            "thanks_step_3": "On its way",
+            "thanks_step_4": "In your hands",
+            "thanks_now": "Now",
+            "sizer_find": "Find your size",
+            "sizer_hint": "Enter your body measurements in the selected unit; two are enough",
+            "sizer_result": "Suggested size",
+            "sizer_none": "Enter at least one measurement",
+            "sizer_table": "Size chart",
+            "cm": "cm",
+            "inch": "in"
         }
     },
     "pages": {

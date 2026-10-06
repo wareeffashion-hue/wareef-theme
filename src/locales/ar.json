@@ -24,7 +24,26 @@
             "play": "تشغيل",
             "pause": "إيقاف",
             "delivery": "التوصيل",
-            "offer_ends": "ينتهي العرض خلال"
+            "offer_ends": "ينتهي العرض خلال",
+            "returns_title": "استبدال واسترجاع بلا تعقيد",
+            "returns_within": "خلال :days يوم من الاستلام",
+            "returns_full": "اقرئي السياسة كاملة",
+            "thanks_order": "رقم الطلب",
+            "thanks_copied": "تم النسخ",
+            "thanks_details": "تفاصيل الطلب",
+            "thanks_share": "شاركي فرحتك",
+            "thanks_step_1": "تأكّد الطلب",
+            "thanks_step_2": "نجهّز قطعتك",
+            "thanks_step_3": "في الطريق إليك",
+            "thanks_step_4": "بين يديك",
+            "thanks_now": "الآن",
+            "sizer_find": "اعرفي مقاسك",
+            "sizer_hint": "أدخلي قياسات جسمك بالوحدة المختارة، ويكفي قياسان",
+            "sizer_result": "مقاسك المقترح",
+            "sizer_none": "أدخلي قياساً واحداً على الأقل",
+            "sizer_table": "جدول المقاسات",
+            "cm": "سم",
+            "inch": "إنش"
         }
     },
     "pages": {

@@ -194,13 +194,33 @@ body.still .ticker-track, body.still .holo-text, body.still .btn.holo, body.stil
 .checks span { color: var(--silver); font-size: 14px; }
 
 /* ---------- made for us */
+.journey { background: var(--pearl); color: var(--ink); }
+.journey .lead { color: #4a5266; }
+.jr { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 44px; }
+.jr-thread { position: absolute; inset: -30px -20px; width: calc(100% + 40px); height: calc(100% + 60px); fill: none; stroke: var(--violet); stroke-width: 1.4; stroke-dasharray: 6 10; opacity: .6; pointer-events: none; }
+.jr-card { position: relative; display: grid; gap: 18px; align-content: start; padding: clamp(18px, 2.4vw, 28px); border-radius: 26px; background: #fff; border: 1px solid #e3e6ee; box-shadow: 0 24px 60px rgba(16,20,31,.08); transition: transform .5s var(--ease), box-shadow .5s var(--ease); }
+.jr-card:hover { transform: translateY(-4px); box-shadow: 0 34px 80px rgba(16,20,31,.14); }
+.jr-wide { grid-column: span 2; }
+.jr-card header { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; }
+.jr-card header b { font: 500 13px/1 var(--f-mono); color: var(--ink); background: linear-gradient(135deg, var(--aqua), var(--violet)); padding: 9px 11px; border-radius: 12px; }
+.jr-card h3 { margin: 0 0 6px; font: 700 19px/1.45 var(--f-display); }
+.jr-card p { margin: 0; color: #4a5266; font-size: 14px; line-height: 1.9; }
+.jr-shot { margin: 0; border-radius: 16px; overflow: hidden; border: 1px solid #e3e6ee; background: #f4f5f8; }
+.jr-shot img { width: 100%; display: block; }
+.jr-wide .jr-shot img { aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
+.jr-card:not(.jr-wide) .jr-shot { display: grid; place-items: center; padding: 14px; }
+.jr-card:not(.jr-wide) .jr-shot img { max-height: 380px; width: auto; max-width: 100%; border-radius: 10px; box-shadow: 0 14px 30px rgba(16,20,31,.12); }
+.jr-tabs { display: inline-flex; gap: 4px; padding: 4px; border-radius: 999px; background: #eef0f5; width: max-content; max-width: 100%; }
+.jr-tabs button { border: 0; background: transparent; padding: 8px 16px; border-radius: 999px; font: 600 13px/1 var(--f-body); color: #4a5266; cursor: pointer; transition: background .3s, color .3s; }
+.jr-tabs button[aria-pressed="true"] { background: var(--ink); color: var(--pearl); }
+#jr-layout { transition: opacity .35s ease; }
 .dets { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 16px; margin-top: 40px; align-items: end; }
 .dets figure { margin: 0; position: relative; border-radius: 22px; overflow: hidden; aspect-ratio: 3 / 4; border: 1px solid var(--line); }
 .dets figure:first-child { aspect-ratio: 1 / 1.1; }
 .dets img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
 .dets figure:hover img { transform: scale(1.08); }
 .dets figcaption { position: absolute; inset-inline: 14px; bottom: 14px; display: flex; gap: 10px; align-items: center; padding: 10px 14px; border-radius: 14px; background: rgba(16,20,31,.55); backdrop-filter: blur(10px); color: var(--pearl); font: 600 15px/1.2 var(--f-display); }
-.dets figcaption b { font: 500 11px/1 var(--f-mono); color: var(--turq, #41E8D1); }
+.dets figcaption b { font: 500 11px/1 var(--f-mono); color: var(--aqua); }
 .made { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 44px; }
 .made article { border: 1px solid var(--line); border-radius: 22px; padding: 26px; background: var(--midnight-2); display: grid; gap: 10px; align-content: start; transition: transform .5s var(--ease), border-color .3s; }
 .made article:hover { transform: translateY(-4px); border-color: rgba(191,168,244,.45); }
@@ -249,6 +269,7 @@ footer img { height: 28px; width: auto; }
 }
 @media (max-width: 560px) {
   .lab, .made { grid-template-columns: 1fr; }
+  .jr { grid-template-columns: 1fr; } .jr-wide { grid-column: auto; } .jr-thread { display: none; }
   .dets { grid-template-columns: 1fr 1fr; } .dets figure:first-child { grid-column: 1 / -1; aspect-ratio: 4 / 3; }
   .nav .cta { display: none; }
   .pd-mock { grid-template-columns: 1fr; }
@@ -269,7 +290,7 @@ footer img { height: 28px; width: auto; }
       <a href="#components">العناصر</a>
       <a href="#styles">الطوابع</a>
       <a href="#motion">الحركة</a>
-      <a href="#product">صفحة المنتج</a>
+      <a href="#journey">رحلة العميلة</a>
       <a href="#faq">الأسئلة</a>
     </nav>
     <a class="btn holo cta" href="#launch">احجز نسختك</a>
@@ -375,12 +396,13 @@ footer img { height: 28px; width: auto; }
       <div>
         <span class="eyebrow">الطوابع البصرية</span>
         <h2>طابعك بضغطة واحدة</h2>
-        <p class="lead">أربعة طوابع تغيّر الخلفيات والتباين والزوايا في المتجر كله، مع زر وضع داكن يحفظ اختيار الزائرة. لون متجرك يبقى هو الأساس.</p>
+        <p class="lead">خمسة طوابع تغيّر الخلفيات والتباين والزوايا في المتجر كله، مع زر وضع داكن يحفظ اختيار الزائرة. لون متجرك يبقى هو الأساس.</p>
         <div class="swatches" role="group" aria-label="اختر طابعاً">
           <button class="swatch" aria-pressed="true" data-style="luxe"><i style="background:linear-gradient(135deg,#111 50%,#faf8f4 50%)"></i>فاخر أحادي</button>
           <button class="swatch" aria-pressed="false" data-style="minimal"><i style="background:#fff"></i>بسيط</button>
           <button class="swatch" aria-pressed="false" data-style="soft"><i style="background:#efe4da"></i>ناعم</button>
           <button class="swatch" aria-pressed="false" data-style="bold"><i style="background:linear-gradient(135deg,#0a0a0a 50%,#fff 50%)"></i>جريء</button>
+          <button class="swatch" aria-pressed="false" data-style="gold"><i style="background:linear-gradient(135deg,#fcd116,#c19017)"></i>ذهبي</button>
           <button class="swatch" aria-pressed="false" data-style="dark"><i style="background:#0d0d0d"></i>داكن</button>
         </div>
         <div class="fit-meta"><span>الزوايا: <b id="fit-radius">حادة</b></span><span>الخلفية: <b id="fit-bg">عاجي</b></span></div>
@@ -455,11 +477,43 @@ footer img { height: 28px; width: auto; }
         <span class="eyebrow">صفحة المنتج</span>
         <h2>صفحة تُكمل البيعة</h2>
         <ul class="checks">
-          <li><div><b>دليل مقاسات في نافذة أنيقة</b><span>صورة جدول المقاسات يرفعها التاجر مرة وتظهر في كل المنتجات.</span></div></li>
+          <li><div><b>جدول مقاسات تفاعلي يقترح المقاس</b><span>يكتب التاجر الجدول مرة في الإعدادات، فيظهر في كل المنتجات مع حاسبة «اعرفي مقاسك».</span></div></li>
           <li><div><b>وعد التوصيل ومزايا الثقة</b><span>سطر توصيل ومزايا قصيرة تحت زر الشراء مباشرة، تُعدّل من الإعدادات.</span></div></li>
           <li><div><b>صور طولية للفساتين والعبايات</b><span>نسبة 3:4 أو 2:3 لبطاقات المنتجات، فلا تُقصّ الأطوال.</span></div></li>
           <li><div><b>كل مزايا سلة تعمل كما هي</b><span>السلة، المفضلة، الفلاتر، الولاء، التقسيط والهدايا: مبني على الثيم الرسمي من سلة.</span></div></li>
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="journey" class="journey">
+    <div class="wrap">
+      <span class="eyebrow">رحلة العميلة</span>
+      <h2>من أول صورة حتى رسالة الشكر</h2>
+      <p class="lead">كل محطة بعد الضغط على المنتج لها خيار في إعدادات الثيم: تخطيط الصفحة، المقاس، الاستبدال، وكلمة الشكر بعد الدفع. يفعّلها التاجر أو يوقفها بضغطة.</p>
+      <div class="jr">
+        <svg class="jr-thread" viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true"><path d="M1180 40C900 60 820 260 600 280S220 300 120 420 300 590 20 560"/></svg>
+        <article class="jr-card jr-wide">
+          <header><b>01</b><div><h3>ثلاثة تخطيطات لصفحة المنتج</h3><p>مجلة بصور طولية متتالية ولوحة شراء ثابتة، أو منصة عرض بشريط صور بعرض الشاشة، أو الكلاسيكي. الجوال يبقى بسلايدر مريح للسحب.</p></div></header>
+          <div class="jr-tabs" role="group" aria-label="تخطيط صفحة المنتج">
+            <button aria-pressed="true" data-img="{{IMG:f-editorial.webp}}">مجلة</button>
+            <button aria-pressed="false" data-img="{{IMG:f-runway.webp}}">منصة العرض</button>
+            <button aria-pressed="false" data-img="{{IMG:f-classic.webp}}">كلاسيكي</button>
+          </div>
+          <figure class="jr-shot"><img id="jr-layout" src="{{IMG:f-editorial.webp}}" alt="تخطيط صفحة المنتج المختار" width="960" height="600" loading="lazy"></figure>
+        </article>
+        <article class="jr-card">
+          <header><b>02</b><div><h3>جدول مقاسات يقترح المقاس</h3><p>تكتب العميلة قياساتها فيظهر مقاسها المقترح فوراً، مع تمييز الصف والعمود والتبديل بين سم وإنش.</p></div></header>
+          <figure class="jr-shot"><img src="{{IMG:f-sizer.webp}}" alt="جدول المقاسات التفاعلي" width="640" height="622" loading="lazy"></figure>
+        </article>
+        <article class="jr-card">
+          <header><b>03</b><div><h3>وعد الاستبدال والاسترجاع</h3><p>حلقة بعدد أيام الاستبدال وخطواته الثلاث تحت زر الشراء مباشرة، فتشتري العميلة وهي مطمئنة.</p></div></header>
+          <figure class="jr-shot"><img src="{{IMG:f-buy.webp}}" alt="بطاقة وعد الاستبدال في صفحة المنتج" width="493" height="672" loading="lazy"></figure>
+        </article>
+        <article class="jr-card jr-wide">
+          <header><b>04</b><div><h3>رسالة شكر مختومة بعد إتمام الطلب</h3><p>بطاقة بختم شعارك ورسالتك وتوقيعك، ورقم الطلب بنسخة واحدة، ورحلة الطلب من التأكيد حتى الوصول، وزر مشاركة عبر واتساب.</p></div></header>
+          <figure class="jr-shot"><img src="{{IMG:f-thanks.webp}}" alt="صفحة الشكر بعد إتمام الطلب" width="1000" height="581" loading="lazy"></figure>
+        </article>
       </div>
     </div>
   </section>
@@ -614,8 +668,14 @@ document.documentElement.lang = 'ar'; document.documentElement.dir = 'rtl';
   // Style presets.
   const PRESETS = {
     luxe: ['{{IMG:p-luxe.webp}}', 'حادة', 'عاجي'], minimal: ['{{IMG:p-minimal.webp}}', 'حادة', 'أبيض'],
-    soft: ['{{IMG:p-soft.webp}}', 'ناعمة', 'رملي دافئ'], bold: ['{{IMG:p-bold.webp}}', 'حادة', 'أبيض بخطوط داكنة'], dark: ['{{IMG:p-dark.webp}}', 'حادة', 'ليلي']
+    soft: ['{{IMG:p-soft.webp}}', 'ناعمة', 'رملي دافئ'], bold: ['{{IMG:p-bold.webp}}', 'حادة', 'أبيض بخطوط داكنة'], gold: ['{{IMG:p-gold.webp}}', 'ناعمة', 'أبيض بلمسات ذهبية'], dark: ['{{IMG:p-dark.webp}}', 'حادة', 'ليلي']
   };
+  const jrImg = document.getElementById('jr-layout');
+  document.querySelectorAll('.jr-tabs button').forEach((b) => b.addEventListener('click', () => {
+    document.querySelectorAll('.jr-tabs button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    jrImg.style.opacity = 0;
+    setTimeout(() => { jrImg.src = b.dataset.img; jrImg.style.opacity = 1; }, 220);
+  }));
   const fitImg = document.getElementById('fit-img');
   document.querySelectorAll('.swatch').forEach((s) => s.addEventListener('click', () => {
     document.querySelectorAll('.swatch').forEach((x) => x.setAttribute('aria-pressed', x === s));
@@ -658,7 +718,7 @@ document.documentElement.lang = 'ar'; document.documentElement.dir = 'rtl';
 
   // Scroll: sections are visible at rest; entering the viewport adds a small lift and runs the demos.
   if ('IntersectionObserver' in window && !reduce) {
-    const targets = document.querySelectorAll('.head, .shot, .items, .fit-grid > *, .duo > *, .cell, .pd > *, .made article, .dets figure, .phones figure, .faq > *');
+    const targets = document.querySelectorAll('.head, .shot, .items, .fit-grid > *, .duo > *, .cell, .pd > *, .made article, .jr-card, .dets figure, .phones figure, .faq > *');
     targets.forEach((el) => { el.classList.add('lift'); if (el.getBoundingClientRect().top > innerHeight) el.classList.add('pre'); });
     const io = new IntersectionObserver((es) => es.forEach((e) => {
       if (!e.isIntersecting) return;

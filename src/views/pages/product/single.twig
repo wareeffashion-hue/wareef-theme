@@ -87,6 +87,10 @@
 #}
 {% extends "layouts.master" %}
 {% block content %}
+    {# Wareef: gallery layout (classic slider, editorial stack or runway rail), set in theme settings. #}
+    {% set w_layout = theme.settings.get('w_pd_layout', 'editorial') %}
+    {% set w_layout = w_layout is iterable ? ((w_layout|first).value|default(w_layout.value|default('editorial'))) : (w_layout|default('editorial')) %}
+    {% set w_layout = w_layout in ['classic', 'editorial', 'runway'] ? w_layout : 'editorial' %}
     {% if theme.settings.get('product_show_breadcrumbs', true) %}
       <div class="container container--breadcrumbs">
           {# add breadcumbs container in pages to make a space in case breadcrumbs is off #}
@@ -103,7 +107,7 @@
     #}
     <div class="s-blocks-wrapper s-before-product-info !mt-0">{% hook 'product.single.before_product_info' %}</div>
 
-    <div class="container container--product-details">
+    <div class="container container--product-details w-pd w-pd--{{ w_layout }}">
         <div class="flex flex-col items-start md:flex-row" id="product-{{ product.id }}">
             <div class="sidebar md:sticky top-24 w-full md:!w-2/4 rtl:ml-8 ltr:mr-8 mb-5 md:mb-0 overflow-hidden shrink-0">
                 {% set has_many_images = product.images|length > 1 %}
@@ -196,6 +200,9 @@
                         </div>
                     {% endif %}
                 </salla-slider>
+                {% if w_layout != 'classic' and product.images|length %}
+                    {% include 'pages.partials.product.w-gallery' with { layout: w_layout } %}
+                {% endif %}
             </div>
 
             <div class="main-content md:sticky md:overflow-hidden top-24 w-full md:w-2/4">
@@ -456,6 +463,7 @@
                         </salla-add-product-button>
                     </section>
                     {% include 'pages.partials.product.w-extras' %}
+                    {% include 'pages.partials.product.w-returns' %}
                     {% if product.is_giftable %}
                         <salla-gifting data-testid="store-product-gifting" class="mt-5" widget-subtitle="{{ gifting_intro }}" product-id="{{ product.id }}" {{ product.is_require_shipping ? 'physical-products' : ''  }}></salla-gifting>
                     {% endif %}

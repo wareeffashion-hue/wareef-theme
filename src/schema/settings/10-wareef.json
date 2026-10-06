@@ -31,6 +31,10 @@
       {
         "label": "جريء وعصري",
         "value": "bold"
+      },
+      {
+        "label": "ذهبي دافئ (أبيض ولمسات ذهبية)",
+        "value": "gold"
       }
     ],
     "selected": [
@@ -284,15 +288,121 @@
     "value": "<div style='background:#111;color:#f4efe6;padding:14px;border-radius:10px;text-align:center;font-weight:700;margin-bottom:16px'>صفحة المنتج</div>"
   },
   {
+    "id": "w_pd_layout",
+    "type": "items",
+    "format": "dropdown-list",
+    "label": "تخطيط صفحة المنتج",
+    "description": "طريقة عرض صور المنتج على الكمبيوتر، والجوال يبقى بسلايدر مريح للسحب",
+    "icon": "sicon-list",
+    "source": "Manual",
+    "required": true,
+    "options": [
+      {
+        "label": "كلاسيكي (سلايدر وصور مصغّرة)",
+        "value": "classic"
+      },
+      {
+        "label": "مجلة (صور طولية متتالية ولوحة شراء ثابتة)",
+        "value": "editorial"
+      },
+      {
+        "label": "منصة العرض (شريط صور عريض بعرض الشاشة)",
+        "value": "runway"
+      }
+    ],
+    "selected": [
+      {
+        "label": "مجلة (صور طولية متتالية ولوحة شراء ثابتة)",
+        "value": "editorial"
+      }
+    ]
+  },
+  {
+    "id": "w_pd_index",
+    "type": "boolean",
+    "format": "switch",
+    "label": "عدّاد الصور وشريط التقدّم",
+    "description": "يظهر رقم الصورة الحالية في تخطيط المجلة",
+    "icon": "sicon-toggle-off",
+    "required": false,
+    "value": true,
+    "selected": true
+  },
+  {
     "id": "w_size_guide",
     "type": "string",
     "format": "image",
-    "label": "صورة دليل المقاسات",
-    "description": "تظهر كنافذة في صفحة المنتج عند الضغط على «دليل المقاسات»",
+    "label": "صورة دليل المقاسات (اختياري)",
+    "description": "تظهر في نافذة «دليل المقاسات» تحت الجدول التفاعلي، أو وحدها إن أوقفتِ الجدول",
     "icon": "sicon-image",
     "required": false,
     "value": null,
     "placeholder": "https://"
+  },
+  {
+    "type": "static",
+    "format": "title",
+    "id": "w-title-sizer",
+    "variant": "h6",
+    "value": "<div style='background:#111;color:#f4efe6;padding:14px;border-radius:10px;text-align:center;font-weight:700;margin-bottom:16px'>جدول المقاسات التفاعلي</div>"
+  },
+  {
+    "id": "w_sizer",
+    "type": "boolean",
+    "format": "switch",
+    "label": "جدول مقاسات تفاعلي",
+    "description": "يظهر في نافذة «دليل المقاسات» مع تمييز الصف والعمود، والتبديل بين سم وإنش",
+    "icon": "sicon-toggle-off",
+    "required": false,
+    "value": true,
+    "selected": true
+  },
+  {
+    "id": "w_sizer_head",
+    "type": "string",
+    "format": "text",
+    "label": "عناوين الأعمدة (افصل بينها بعلامة |)",
+    "description": "العمود الأول للمقاس، وبقية الأعمدة قياسات بالسنتيمتر",
+    "icon": "sicon-format-text-alt",
+    "required": false,
+    "multilanguage": true,
+    "value": "المقاس | الصدر | الخصر | الورك | الطول",
+    "placeholder": "عناوين الأعمدة (افصل بينها بعلامة |)"
+  },
+  {
+    "id": "w_sizer_rows",
+    "type": "string",
+    "format": "textarea",
+    "label": "صفوف الجدول (سطر لكل مقاس)",
+    "description": "مثال: S | 86 | 68 | 94 | 155 ويمكن كتابة مدى مثل 150-155",
+    "icon": "sicon-format-text-alt",
+    "required": false,
+    "multilanguage": false,
+    "value": "XS | 82 | 64 | 90 | 150\nS | 86 | 68 | 94 | 155\nM | 90 | 72 | 98 | 160\nL | 96 | 78 | 104 | 165\nXL | 102 | 84 | 110 | 170",
+    "placeholder": "صفوف الجدول (سطر لكل مقاس)"
+  },
+  {
+    "id": "w_sizer_finder",
+    "type": "boolean",
+    "format": "switch",
+    "label": "«اعرفي مقاسك»: تُدخل العميلة قياساتها ويقترح الثيم المقاس الأنسب",
+    "description": null,
+    "icon": "sicon-toggle-off",
+    "required": false,
+    "value": true,
+    "selected": true
+  },
+  {
+    "id": "w_sizer_note",
+    "type": "string",
+    "format": "text",
+    "label": "ملاحظة أسفل الجدول",
+    "description": null,
+    "icon": "sicon-format-text-alt",
+    "required": false,
+    "multilanguage": true,
+    "value": "القياسات للجسم وليست للقطعة. إن كنتِ بين مقاسين فاختاري الأكبر للقصّات الضيقة.",
+    "placeholder": "ملاحظة أسفل الجدول"
   },
   {
     "id": "w_delivery_note",
@@ -322,6 +432,197 @@
     "type": "static",
     "format": "line",
     "id": "w-line-4"
+  },
+  {
+    "type": "static",
+    "format": "title",
+    "id": "w-title-returns",
+    "variant": "h6",
+    "value": "<div style='background:#111;color:#f4efe6;padding:14px;border-radius:10px;text-align:center;font-weight:700;margin-bottom:16px'>الاستبدال والاسترجاع</div>"
+  },
+  {
+    "id": "w_returns",
+    "type": "boolean",
+    "format": "switch",
+    "label": "بطاقة وعد الاستبدال في صفحة المنتج",
+    "description": "تطمئن العميلة قبل الشراء بمدة الاستبدال وخطواته",
+    "icon": "sicon-toggle-off",
+    "required": false,
+    "value": true,
+    "selected": true
+  },
+  {
+    "id": "w_returns_days",
+    "type": "number",
+    "format": "integer",
+    "label": "مدة الاستبدال والاسترجاع (أيام)",
+    "description": null,
+    "icon": "sicon-pencil-ruler",
+    "placeholder": "القيمة",
+    "value": 7,
+    "required": false,
+    "minimum": 1,
+    "maximum": 90
+  },
+  {
+    "id": "w_returns_title",
+    "type": "string",
+    "format": "text",
+    "label": "عنوان البطاقة",
+    "description": null,
+    "icon": "sicon-format-text-alt",
+    "required": false,
+    "multilanguage": true,
+    "value": "استبدال واسترجاع بلا تعقيد",
+    "placeholder": "عنوان البطاقة"
+  },
+  {
+    "id": "w_returns_steps",
+    "type": "string",
+    "format": "text",
+    "label": "خطوات الاستبدال (افصل بينها بعلامة |)",
+    "description": null,
+    "icon": "sicon-format-text-alt",
+    "required": false,
+    "multilanguage": true,
+    "value": "اطلبي من حسابك | نستلم القطعة منك | استبدال أو استرداد",
+    "placeholder": "خطوات الاستبدال (افصل بينها بعلامة |)"
+  },
+  {
+    "id": "w_returns_policy",
+    "type": "string",
+    "format": "textarea",
+    "label": "تفاصيل السياسة",
+    "description": null,
+    "icon": "sicon-format-text-alt",
+    "required": false,
+    "multilanguage": true,
+    "value": "يشترط أن تكون القطعة بحالتها الأصلية مع الملصقات والتغليف. القطع المعدّلة حسب الطلب لا تُستبدل.",
+    "placeholder": "تفاصيل السياسة"
+  },
+  {
+    "id": "w_returns_link",
+    "type": "string",
+    "format": "text",
+    "label": "رابط صفحة السياسة الكاملة (اختياري)",
+    "description": null,
+    "icon": "sicon-format-text-alt",
+    "required": false,
+    "multilanguage": false,
+    "value": "",
+    "placeholder": "رابط صفحة السياسة الكاملة (اختياري)"
+  },
+  {
+    "type": "static",
+    "format": "line",
+    "id": "w-line-returns"
+  },
+  {
+    "type": "static",
+    "format": "title",
+    "id": "w-title-thanks",
+    "variant": "h6",
+    "value": "<div style='background:#111;color:#f4efe6;padding:14px;border-radius:10px;text-align:center;font-weight:700;margin-bottom:16px'>صفحة الشكر بعد إتمام الطلب</div>"
+  },
+  {
+    "id": "w_thanks_style",
+    "type": "items",
+    "format": "dropdown-list",
+    "label": "شكل صفحة الشكر",
+    "description": null,
+    "icon": "sicon-list",
+    "source": "Manual",
+    "required": true,
+    "options": [
+      {
+        "label": "رسالة شكر (بطاقة مختومة برحلة الطلب)",
+        "value": "letter"
+      },
+      {
+        "label": "كلاسيكي",
+        "value": "classic"
+      }
+    ],
+    "selected": [
+      {
+        "label": "رسالة شكر (بطاقة مختومة برحلة الطلب)",
+        "value": "letter"
+      }
+    ]
+  },
+  {
+    "id": "w_thanks_title",
+    "type": "string",
+    "format": "text",
+    "label": "عنوان الرسالة",
+    "description": null,
+    "icon": "sicon-format-text-alt",
+    "required": false,
+    "multilanguage": true,
+    "value": "طلبك صار بين أيدٍ أمينة",
+    "placeholder": "عنوان الرسالة"
+  },
+  {
+    "id": "w_thanks_note",
+    "type": "string",
+    "format": "textarea",
+    "label": "نص الرسالة",
+    "description": null,
+    "icon": "sicon-format-text-alt",
+    "required": false,
+    "multilanguage": true,
+    "value": "شكراً لثقتك. نجهّز قطعتك الآن بعناية، ونغلّفها كأنها هدية، وسنبلغك بكل خطوة حتى تصل إليك.",
+    "placeholder": "نص الرسالة"
+  },
+  {
+    "id": "w_thanks_signature",
+    "type": "string",
+    "format": "text",
+    "label": "التوقيع",
+    "description": null,
+    "icon": "sicon-format-text-alt",
+    "required": false,
+    "multilanguage": true,
+    "value": "بكل حب، فريق المتجر",
+    "placeholder": "التوقيع"
+  },
+  {
+    "id": "w_thanks_image",
+    "type": "string",
+    "format": "image",
+    "label": "صورة في الرسالة (اختياري)",
+    "description": "مثل صورة التغليف أو بطاقة الإهداء",
+    "icon": "sicon-image",
+    "required": false,
+    "value": null,
+    "placeholder": "https://"
+  },
+  {
+    "id": "w_thanks_journey",
+    "type": "boolean",
+    "format": "switch",
+    "label": "رحلة الطلب (تأكيد، تجهيز، شحن، وصول)",
+    "description": null,
+    "icon": "sicon-toggle-off",
+    "required": false,
+    "value": true,
+    "selected": true
+  },
+  {
+    "id": "w_thanks_share",
+    "type": "boolean",
+    "format": "switch",
+    "label": "زر مشاركة الطلب عبر واتساب",
+    "description": null,
+    "icon": "sicon-toggle-off",
+    "required": false,
+    "value": true,
+    "selected": true
+  },
+  {
+    "type": "static",
+    "format": "line",
+    "id": "w-line-thanks"
   },
   {
     "type": "static",

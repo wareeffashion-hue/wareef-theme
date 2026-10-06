@@ -1,0 +1,68 @@
+/* "Gold" style preset: warm white surfaces, a gold marker under section titles, soft lifted product cards
+   and a gold-gradient buy button. Everything is scoped to body.w-style-gold. */
+body.w-style-gold {
+  --w-shadow-card: 0 8px 24px rgba(17, 17, 17, .055);
+  --w-shadow-hover: 0 14px 32px rgba(17, 17, 17, .09);
+  --w-gold-grad: linear-gradient(135deg, var(--w-gold-bright), var(--w-gold));
+
+  :focus-visible { outline: 3px solid rgba(193, 144, 23, .3); outline-offset: 2px; }
+
+  /* Section titles: a gold marker stroke behind the lower half of the words. */
+  .w-title, .s-block__title h2 {
+    width: fit-content; padding-inline: 4px;
+    background: linear-gradient(to bottom, transparent 60%, rgba(193, 144, 23, .32) 60%, rgba(193, 144, 23, .32) 86%, transparent 86%) no-repeat;
+  }
+
+  /* Product cards: framed, lifted on hover, gold price. */
+  .s-product-card-entry {
+    border: 1px solid var(--w-line); border-radius: max(var(--w-radius), 14px); padding: 8px;
+    background: linear-gradient(180deg, #fff 0%, #fffdf8 100%); box-shadow: var(--w-shadow-card); overflow: hidden;
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .s-product-card-entry .s-product-card-image { border-radius: max(var(--w-radius-sm), 10px); overflow: hidden; background: #f7f6f3; }
+  .s-product-card-entry .s-product-card-price, .s-product-card-entry .s-product-card-sale-price h4 { color: var(--w-gold); font-weight: 800; }
+  .s-product-card-entry .s-product-card-sale-price span, .s-product-card-entry del { color: #949494; font-weight: 500; }
+  @media (hover: hover) and (pointer: fine) {
+    .s-product-card-entry:hover { border-color: rgba(193, 144, 23, .38); box-shadow: var(--w-shadow-hover); transform: translateY(-3px); }
+  }
+
+  /* Buy buttons (cards + product page). */
+  .s-product-card-entry .s-button-primary,
+  salla-add-product-button .s-button-primary,
+  .s-add-product-button-main {
+    background: var(--w-gold-grad) !important; color: #111 !important; border-color: transparent !important;
+    border-radius: max(var(--w-radius-sm), 12px) !important; font-weight: 800; box-shadow: 0 8px 20px rgba(193, 144, 23, .18);
+    transition: transform .16s ease, box-shadow .16s ease, filter .16s ease;
+    &:not(:disabled):hover { box-shadow: 0 11px 24px rgba(193, 144, 23, .26); filter: saturate(1.05); transform: translateY(-1px); }
+    &:disabled { filter: grayscale(.3); opacity: .58; box-shadow: none; transform: none; }
+  }
+
+  /* Wareef buttons: solid ink with a gold hover fill. */
+  .w-btn:not(.w-btn--ghost):not(.w-btn--light) { --i: var(--w-gold); }
+
+  /* Product page details pick up the gold. */
+  .w-pd-extras { background: var(--w-surface-2); border-color: var(--w-line); border-radius: max(var(--w-radius), 14px); }
+  .w-returns { border-radius: max(var(--w-radius), 14px); }
+  .w-sizer__result.is-on { background: var(--w-gold-grad); color: #111; }
+
+  /* "Send as a gift" button. */
+  salla-gifting button.s-gifting-widget-action {
+    min-height: 48px; padding: 9px 18px; border: 1px solid #111 !important; border-radius: 10px !important;
+    background: #fff !important; color: #111 !important; font-weight: 700; box-shadow: 0 5px 15px rgba(17, 17, 17, .06);
+    transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+  }
+  salla-gifting .s-gifting-widget-action-content svg { fill: var(--w-gold) !important; color: var(--w-gold) !important; }
+  @media (hover: hover) {
+    salla-gifting button.s-gifting-widget-action:hover { background: #111 !important; color: #fff !important; border-color: var(--w-gold) !important; }
+    salla-gifting button.s-gifting-widget-action:hover svg { fill: var(--w-gold-bright) !important; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .s-product-card-entry, .s-product-card-entry .s-button-primary, salla-add-product-button .s-button-primary { transition: none !important; transform: none !important; }
+  }
+}
+html.dark body.w-style-gold {
+  --w-gold: #d9ab3a;
+  .s-product-card-entry { background: var(--w-surface); }
+  salla-gifting button.s-gifting-widget-action { background: var(--w-surface) !important; color: var(--w-text) !important; border-color: var(--w-line) !important; }
+}
