@@ -20,9 +20,11 @@ const server = createServer((req, res) => {
 const base = `http://127.0.0.1:${server.address().port}/`;
 const args = process.argv.slice(2);
 const dark = args.includes('--dark');
+const styleIdx = args.indexOf('--style');
+const style = styleIdx > -1 ? args[styleIdx + 1] : 'luxe';
 const outIdx = args.indexOf('--out');
 const out = resolve(root, outIdx > -1 ? args[outIdx + 1] : 'tools/.preview');
-const names = args.filter((a, i) => !a.startsWith('--') && args[i - 1] !== '--out');
+const names = args.filter((a, i) => !a.startsWith('--') && args[i - 1] !== '--out' && args[i - 1] !== '--style');
 mkdirSync(out, { recursive: true });
 const ar = JSON.parse(readFileSync(join(root, 'src/locales/ar.json'), 'utf8'));
 const get = (o, path) => path.split('.').reduce((a, k) => (a == null ? a : a[k]), o);
@@ -67,7 +69,7 @@ for (const name of names) {
   const html = Twig.twig({ data: tpl, rethrow: true }).render({ component: defaults(schema), position: 0, componentId: name, language: { code: 'ar' }, theme: { is_rtl: true, settings: { get: (k, d) => d } }, store: { name: 'وريف', url: '#', contacts: {}, social: {} } });
   const js = existsSync(join(root, 'src/assets/js/wareef/components', `${name}.js`)) ? `<script type="module" src="${base}src/assets/js/wareef/components/${name}.js"></script>` : '';
   const page = `<!doctype html><html lang="ar" dir="rtl" class="${dark ? 'dark' : ''}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="${css}"><style>body{font-family:system-ui,'Noto Sans Arabic',sans-serif}</style>${STUBS}</head>
-<body class="theme-wareef theme-raed w-style-luxe w-radius-sharp w-anim-full w-card-editorial w-ratio-portrait">${html}
+<body class="theme-wareef theme-raed w-style-${style} w-radius-${style === "soft" ? "soft" : "sharp"} w-anim-full w-card-editorial w-ratio-portrait">${html}
 <script type="module" src="${base}src/assets/js/wareef/core.js"></script>${js}</body></html>`;
   const file = join(out, `${name}.html`);
   writeFileSync(file, page);
@@ -84,7 +86,7 @@ for (const name of names) {
     await p.evaluate(() => document.querySelectorAll('[data-w-reveal],[data-w-split]').forEach((e) => e.classList.add('is-in')));
     await p.waitForTimeout(1300);
     const overflow = await p.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1);
-    await p.screenshot({ path: join(out, `${name}-${label}${dark ? '-dark' : ''}.png`), fullPage: true });
+    await p.screenshot({ path: join(out, `${name}-${label}${dark ? '-dark' : ''}${style !== 'luxe' ? '-' + style : ''}.png`), fullPage: true });
     console.log(`${name} ${label}: ${errors.length ? 'ERRORS ' + errors.join(' | ') : 'ok'}${overflow ? ' · HORIZONTAL OVERFLOW' : ''}`);
     await p.close();
   }
