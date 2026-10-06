@@ -114,3 +114,65 @@ body.theme-wareef .s-add-product-button-main, body.theme-wareef salla-add-produc
 [dir='rtl'] .w-sizer__table .is-pick > th { box-shadow: inset -3px 0 0 var(--w-gold); }
 .w-sizer__note { margin: 0; font-size: 12px; line-height: 1.8; color: var(--w-text-2); }
 .w-sizer__img { margin-top: 6px; }
+
+/* Size chart extras: unit tag, body shapes, how to measure */
+.w-sizer__u { font-style: normal; opacity: .6; }
+.w-sizer__shapes, .w-sizer__howto { display: grid; gap: 10px; padding-top: 14px; border-top: 1px solid var(--w-line); }
+.w-sizer__shapes > b, .w-sizer__howto > b { font-size: 14px; }
+.w-sizer__shape-list { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.w-sizer__shape-list button { display: grid; justify-items: center; gap: 6px; padding: 10px 4px; border: 1px solid var(--w-line); border-radius: var(--w-radius-sm); font-size: 12px; color: var(--w-text-2); transition: border-color .3s, background .3s; }
+.w-sizer__shape-list svg { width: 26px; height: 36px; fill: none; stroke: var(--w-gold); stroke-width: 1.6; }
+.w-sizer__shape-list button[aria-pressed='true'] { border-color: var(--w-text); background: var(--w-surface-2); color: var(--w-text); }
+.w-sizer__shape-tip { margin: 0; padding: 12px 14px; border-radius: var(--w-radius-sm); background: var(--w-surface-2); font-size: 13px; line-height: 1.9; color: var(--w-text-2); animation: w-pop .4s var(--w-ease-out); }
+.w-sizer__shape-tip b { display: block; color: var(--w-text); }
+.w-sizer__howto ul { margin: 0; padding-inline-start: 18px; display: grid; gap: 4px; font-size: 13px; line-height: 1.8; color: var(--w-text-2); }
+@media (max-width: 520px) { .w-sizer__shape-list { grid-template-columns: repeat(3, 1fr); } }
+
+/* Size-guide link inside Salla's size option row + picked-value confirmation */
+.s-product-options-option-label.w-has-guide { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.w-guide-inline { margin-inline-start: auto; font-size: 12px; color: var(--w-gold); }
+.w-picked { color: var(--w-gold) !important; font-weight: 700; }
+
+/* Exchange / return request (order page) */
+.w-rr { margin-bottom: 16px; }
+.w-rr__bar { display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1px solid var(--w-gold); border-radius: max(var(--w-radius), 14px); background: linear-gradient(135deg, var(--w-surface), color-mix(in srgb, var(--w-gold) 8%, var(--w-surface))); }
+.w-rr__icon { flex: none; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 999px; background: var(--w-text); color: var(--w-bg); }
+.w-rr__icon svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.7; }
+.w-rr__text { flex: 1; display: grid; gap: 2px; }
+.w-rr__text b { font-size: 15px; }
+.w-rr__text small { font-size: 12px; color: var(--w-text-2); }
+.w-rr__open { min-height: 46px; padding: 0 26px; }
+@media (max-width: 640px) { .w-rr__bar { flex-wrap: wrap; } .w-rr__open { width: 100%; } }
+.w-rr__dialog { max-width: min(760px, 96vw); }
+.w-rr__form { display: grid; gap: 16px; }
+.w-rr__ref { font-size: .7em; color: var(--w-text-2); font-weight: 500; }
+.w-rr__terms { margin: -6px 0 0; display: flex; flex-wrap: wrap; gap: 8px 18px; padding: 12px 14px; border-radius: var(--w-radius-sm); background: var(--w-surface-2); font-size: 13px; color: var(--w-text-2); }
+.w-rr__terms b { color: var(--w-text); }
+.w-rr fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 10px; }
+.w-rr legend, .w-rr__field > span { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+.w-rr__types { grid-template-columns: 1fr 1fr; }
+.w-rr__types legend { grid-column: 1 / -1; }
+.w-rr__types label, .w-rr__pick { position: relative; cursor: pointer; }
+.w-rr input[type='radio'], .w-rr__pick input { position: absolute; opacity: 0; pointer-events: none; }
+.w-rr__types span { display: grid; gap: 2px; padding: 14px; border: 1px solid var(--w-line); border-radius: var(--w-radius-sm); transition: border-color .25s, background .25s; }
+.w-rr__types small { font-size: 12px; color: var(--w-text-2); }
+.w-rr__types input:checked + span, .w-rr__pick input:checked + .w-rr__card { border-color: var(--w-gold); background: color-mix(in srgb, var(--w-gold) 8%, var(--w-surface)); }
+.w-rr__types input:focus-visible + span, .w-rr__pick input:focus-visible + .w-rr__card { outline: 2px solid var(--w-gold); outline-offset: 2px; }
+.w-rr__items { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.w-rr__items legend { grid-column: 1 / -1; }
+.w-rr__item { display: grid; gap: 8px; align-content: start; }
+.w-rr__card { position: relative; display: grid; grid-template-columns: 76px 1fr; gap: 12px; align-items: center; padding: 10px; border: 1px solid var(--w-line); border-radius: var(--w-radius-sm); transition: border-color .25s, background .25s; }
+.w-rr__card img { width: 76px; height: 96px; object-fit: cover; border-radius: max(var(--w-radius-sm), 6px); background: var(--w-surface-2); }
+.w-rr__card > span { display: grid; gap: 4px; font-size: 13px; }
+.w-rr__card small { color: var(--w-text-2); font-size: 11px; }
+.w-rr__card i { position: absolute; top: 8px; inset-inline-end: 8px; width: 24px; height: 24px; border-radius: 999px; display: grid; place-items: center; background: var(--w-text); color: var(--w-bg); opacity: 0; transform: scale(.7); transition: .2s; }
+.w-rr__pick input:checked + .w-rr__card i { opacity: 1; transform: none; }
+.w-rr__want[hidden] { display: none; }
+.w-rr__want { display: grid; gap: 6px; font-size: 12px; color: var(--w-text-2); }
+.w-rr__want input, .w-rr__field select, .w-rr__field textarea { width: 100%; min-height: 46px; padding: 8px 12px; border: 1px solid var(--w-line); border-radius: var(--w-radius-sm); background: var(--w-surface); color: var(--w-text); font-size: 16px; }
+.w-rr__field { display: grid; }
+.w-rr__consent { display: flex; gap: 10px; align-items: flex-start; font-size: 12px; line-height: 1.8; color: var(--w-text-2); }
+.w-rr__consent input { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--w-gold); }
+.w-rr__error { margin: 0; min-height: 20px; color: #b42318; font-size: 13px; }
+.w-rr__send { width: 100%; }
+@media (max-width: 520px) { .w-rr__types { grid-template-columns: 1fr; } }

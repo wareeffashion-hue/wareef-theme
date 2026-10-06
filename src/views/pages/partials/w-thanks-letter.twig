@@ -8,6 +8,16 @@
 {% set t_sign = t_sign is iterable ? (t_sign[language.code]|default(t_sign|first)) : t_sign %}
 {% set t_img = theme.settings.get('w_thanks_image') %}
 {% set share = short_share_message|default(share_message) %}
+{% set t_ship = theme.settings.get('w_thanks_shipping') %}
+{% set t_ship = t_ship is iterable ? (t_ship[language.code]|default(t_ship|first)) : t_ship %}
+{% set t_code = theme.settings.get('w_thanks_coupon') %}
+{% set t_code_text = theme.settings.get('w_thanks_coupon_text') %}
+{% set t_code_text = t_code_text is iterable ? (t_code_text[language.code]|default(t_code_text|first)) : t_code_text %}
+{% set t_care = theme.settings.get('w_thanks_care') %}
+{% set t_care = t_care is iterable ? (t_care[language.code]|default(t_care|first)) : t_care %}
+{% set t_policy = theme.settings.get('w_returns_link') %}
+{% set t_policy = t_policy is iterable ? (t_policy.url|default(t_policy|first)) : t_policy %}
+{% set t_wa = store.contacts.whatsapp|default('')|replace({' ': '', '+': '', '-': ''}) %}
 <section class="w-thanks{{ t_img ? ' has-img' : '' }}" data-w-reveal>
   <svg class="w-thanks__threads" viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true">
     <path d="M-20 220C180 120 320 260 520 170S860 40 1220 120"/>
@@ -36,6 +46,12 @@
     </div>
     <div class="w-thanks__actions">
       <button type="button" class="w-btn" data-testid="store-thankyou-order-details-btn" onclick="salla.order.show({order_id:'{{ order.id }}', url:'{{ order.url }}'})">{{ trans('blocks.wareef.thanks_details') }}</button>
+      {% if theme.settings.get('w_thanks_support', true) and t_wa %}
+        <a class="w-btn w-btn--ghost" href="https://wa.me/{{ t_wa }}?text={{ trans('blocks.wareef.thanks_support_msg', {'ref': order.reference_id})|url_encode }}" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg>
+          {{ trans('blocks.wareef.thanks_support') }}
+        </a>
+      {% endif %}
       {% if theme.settings.get('w_thanks_share', true) and share %}
         <a class="w-btn w-btn--ghost" href="https://wa.me/?text={{ share|url_encode }}" target="_blank" rel="noopener">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 19l1.4-4A8 8 0 1 1 9 18.6Z"/></svg>
@@ -58,4 +74,21 @@
       {% endfor %}
     </ol>
   {% endif %}
+  {% if t_ship or t_code or t_care %}
+    <div class="w-thanks__extras">
+      {% if t_ship %}
+        <div class="w-thanks__chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><small>{{ trans('blocks.wareef.thanks_shipping') }}</small><b>{{ t_ship }}</b></span></div>
+      {% endif %}
+      {% if t_code %}
+        <div class="w-thanks__coupon">
+          <small>{{ t_code_text }}</small>
+          <div><code>{{ t_code }}</code><button type="button" onclick="app.copyToClipboard(event)" data-content="{{ t_code }}">{{ trans('blocks.wareef.thanks_coupon_copy') }}</button></div>
+        </div>
+      {% endif %}
+      {% if t_care %}
+        <div class="w-thanks__care"><p>{{ t_care }}</p>{% if t_policy %}<a class="w-link" href="{{ t_policy }}" target="_blank" rel="noopener">{{ trans('blocks.wareef.thanks_policy') }}</a>{% endif %}</div>
+      {% endif %}
+    </div>
+  {% endif %}
+  <a class="w-link w-thanks__shop" href="{{ store.url|default('/') }}">{{ trans('blocks.wareef.thanks_shop') }}</a>
 </section>

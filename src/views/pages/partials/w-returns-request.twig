@@ -1,0 +1,81 @@
+{# Wareef: exchange / return request on the customer's order page. Lists the order's real items
+   (from Twig, no page scraping); the customer picks items, a reason and the wanted size, and the
+   request opens in WhatsApp ready to send. Settings: w_rr*, w_returns_link. #}
+{% if theme.settings.get('w_rr', true) %}
+  {% set rr_phone = theme.settings.get('w_rr_whatsapp')|default(store.contacts.whatsapp)|default('') %}
+  {% set rr_phone = rr_phone|replace({' ': '', '+': '', '-': ''}) %}
+  {% set rr_window = theme.settings.get('w_rr_window') %}
+  {% set rr_window = rr_window is iterable ? (rr_window[language.code]|default(rr_window|first)) : rr_window %}
+  {% set rr_fee = theme.settings.get('w_rr_fee') %}
+  {% set rr_fee = rr_fee is iterable ? (rr_fee[language.code]|default(rr_fee|first)) : rr_fee %}
+  {% set rr_reasons = theme.settings.get('w_rr_reasons') %}
+  {% set rr_reasons = rr_reasons is iterable ? (rr_reasons[language.code]|default(rr_reasons|first)) : rr_reasons %}
+  {% set rr_link = theme.settings.get('w_returns_link') %}
+  {% set rr_link = rr_link is iterable ? (rr_link.url|default(rr_link|first)) : rr_link %}
+  {% set rr_items = [] %}
+  {% for package in order.packages|default([]) %}{% for item in package.items %}{% set rr_items = rr_items|merge([item]) %}{% endfor %}{% endfor %}
+  {% if not rr_items|length %}{% set rr_items = order.items|default([]) %}{% endif %}
+  {% if rr_phone and rr_items|length %}
+    <div class="w-rr" data-w="w-rr" data-phone="{{ rr_phone }}" data-order="{{ order.reference_id }}">
+      <div class="w-rr__bar">
+        <span class="w-rr__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.1 8.3A7 7 0 0 1 18.7 7L20 12M4 12l1.3 5a7 7 0 0 0 12.6 1.7"/></svg></span>
+        <span class="w-rr__text"><b>{{ trans('blocks.wareef.rr_title') }}</b><small>{{ rr_window ? rr_window : trans('blocks.wareef.rr_sub') }}</small></span>
+        <button type="button" class="w-btn w-rr__open" onclick="this.closest('.w-rr').querySelector('dialog').showModal()">{{ trans('blocks.wareef.rr_start') }}</button>
+      </div>
+      <dialog class="w-dialog w-rr__dialog" onclick="if(event.target===this)this.close()">
+        <form class="w-dialog__inner w-rr__form" method="dialog" novalidate>
+          <button type="button" class="w-dialog__close" onclick="this.closest('dialog').close()" aria-label="{{ trans('blocks.wareef.close') }}">✕</button>
+          <h3 class="w-dialog__title">{{ trans('blocks.wareef.rr_title') }} <span class="w-rr__ref">#{{ order.reference_id }}</span></h3>
+          {% if rr_window or rr_fee or rr_link %}
+            <p class="w-rr__terms">
+              {% if rr_window %}<span>{{ trans('blocks.wareef.rr_window') }}: <b>{{ rr_window }}</b></span>{% endif %}
+              {% if rr_fee %}<span>{{ trans('blocks.wareef.rr_fee') }}: <b>{{ rr_fee }}</b></span>{% endif %}
+              {% if rr_link %}<a class="w-link" href="{{ rr_link }}" target="_blank" rel="noopener">{{ trans('blocks.wareef.rr_policy') }}</a>{% endif %}
+            </p>
+          {% endif %}
+
+          <fieldset class="w-rr__types">
+            <legend>{{ trans('blocks.wareef.rr_type') }}</legend>
+            <label><input type="radio" name="rr_type" value="exchange" data-label="{{ trans('blocks.wareef.rr_exchange') }}" checked><span><b>{{ trans('blocks.wareef.rr_exchange') }}</b><small>{{ trans('blocks.wareef.rr_exchange_sub') }}</small></span></label>
+            <label><input type="radio" name="rr_type" value="return" data-label="{{ trans('blocks.wareef.rr_return') }}"><span><b>{{ trans('blocks.wareef.rr_return') }}</b><small>{{ trans('blocks.wareef.rr_return_sub') }}</small></span></label>
+          </fieldset>
+
+          <fieldset class="w-rr__items">
+            <legend>{{ trans('blocks.wareef.rr_items') }}</legend>
+            {% for item in rr_items %}
+              {% set meta = [] %}
+              {% for opt in item.options|default([]) %}{% if opt.value and not opt.is_image %}{% set meta = meta|merge([opt.name ~ ': ' ~ opt.value]) %}{% endif %}{% endfor %}
+              <div class="w-rr__item">
+                <label class="w-rr__pick">
+                  <input type="checkbox" name="rr_item" value="{{ loop.index0 }}" data-name="{{ item.name }}" data-meta="{{ meta|join(' | ') }}" data-qty="{{ item.quantity }}">
+                  <span class="w-rr__card">
+                    <img src="{{ item.image ?: 'images/placeholder.png'|asset }}" alt="" loading="lazy">
+                    <span><b>{{ item.name }}</b>{% if meta|length %}<small>{{ meta|join(' · ') }}</small>{% endif %}{% if item.quantity > 1 %}<small>× {{ item.quantity }}</small>{% endif %}</span>
+                    <i aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 5 5 9-10"/></svg></i>
+                  </span>
+                </label>
+                <label class="w-rr__want"><span>{{ trans('blocks.wareef.rr_want') }}</span><input type="text" maxlength="120" placeholder="{{ trans('blocks.wareef.rr_want_ph') }}"></label>
+              </div>
+            {% endfor %}
+          </fieldset>
+
+          <label class="w-rr__field"><span>{{ trans('blocks.wareef.rr_reason') }}</span>
+            <select name="rr_reason"><option value="">{{ trans('blocks.wareef.rr_reason_pick') }}</option>{% for r in rr_reasons|split('|') %}{% if r|trim %}<option>{{ r|trim }}</option>{% endif %}{% endfor %}</select>
+          </label>
+          <label class="w-rr__field"><span>{{ trans('blocks.wareef.rr_notes') }}</span><textarea name="rr_notes" rows="3" maxlength="500"></textarea></label>
+          <label class="w-rr__consent"><input type="checkbox" name="rr_consent"><span>{{ trans('blocks.wareef.rr_consent') }}</span></label>
+          <p class="w-rr__error" role="alert" aria-live="polite"
+             data-reason="{{ trans('blocks.wareef.rr_err_reason') }}" data-items="{{ trans('blocks.wareef.rr_err_items') }}"
+             data-want="{{ trans('blocks.wareef.rr_err_want') }}" data-consent="{{ trans('blocks.wareef.rr_err_consent') }}"></p>
+          <button type="submit" class="w-btn w-rr__send"
+                  data-t-title="{{ trans('blocks.wareef.rr_msg_title') }}" data-t-order="{{ trans('blocks.wareef.rr_msg_order') }}"
+                  data-t-reason="{{ trans('blocks.wareef.rr_reason') }}" data-t-items="{{ trans('blocks.wareef.rr_msg_items') }}"
+                  data-t-want="{{ trans('blocks.wareef.rr_msg_want') }}" data-t-notes="{{ trans('blocks.wareef.rr_msg_notes') }}" data-t-ok="{{ trans('blocks.wareef.rr_msg_ok') }}">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 19l1.4-4A8 8 0 1 1 9 18.6Z"/><path d="M9 10c.5 2 2 3.5 4 4"/></svg>
+            {{ trans('blocks.wareef.rr_send') }}
+          </button>
+        </form>
+      </dialog>
+    </div>
+  {% endif %}
+{% endif %}

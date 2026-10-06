@@ -90,6 +90,8 @@
 
         {% hook 'customer:orders.single.details.start' %}
 
+        {% include 'pages.partials.w-returns-request' %}
+
         {# Order Details #}
         <table class="min-w-full rounded-md overflow-hidden">
             <tbody>

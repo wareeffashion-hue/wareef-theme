@@ -389,6 +389,7 @@
 
                     {% include 'pages.partials.product.w-size-guide' %}
                     {% include 'pages.partials.product.options' %}
+                    <span hidden data-w="w-pd-enhance" data-inline="{{ theme.settings.get('w_sizer_inline', true) ? 1 : 0 }}" data-selected="{{ theme.settings.get('w_pd_selected', true) ? 1 : 0 }}" data-word="{{ trans('blocks.wareef.sizer_selected') }}"></span>
 
                     {% hook 'product:single.form.end' %}
 

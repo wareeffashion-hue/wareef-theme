@@ -403,6 +403,18 @@
       "key": "20274f9e-bc07-54a4-ad1c-c76f7f49a92c"
     },
     {
+      "id": "w_pd_selected",
+      "type": "boolean",
+      "format": "switch",
+      "label": "تأكيد الخيار المختار تحت عنوان الخيار (مثل: تم اختيار M)",
+      "description": null,
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": true,
+      "selected": true,
+      "key": "787b9d72-ee4e-5ba9-a836-73eb08ded0ae"
+    },
+    {
       "id": "w_size_guide",
       "type": "string",
       "format": "image",
@@ -460,6 +472,49 @@
       "key": "e8b97647-5cd2-53cb-a4ba-e52a8249079f"
     },
     {
+      "id": "w_sizer_unit",
+      "type": "items",
+      "format": "dropdown-list",
+      "label": "وحدة الأرقام في الجدول",
+      "description": null,
+      "icon": "sicon-list",
+      "source": "Manual",
+      "required": true,
+      "options": [
+        {
+          "label": "سنتيمتر",
+          "value": "cm",
+          "key": "8395e270-fe3b-5dcc-afc2-631b953f2829"
+        },
+        {
+          "label": "إنش",
+          "value": "in",
+          "key": "67675565-dd13-5d0c-a6dd-4da91082e4f6"
+        }
+      ],
+      "selected": [
+        {
+          "label": "سنتيمتر",
+          "value": "cm",
+          "key": "8395e270-fe3b-5dcc-afc2-631b953f2829"
+        }
+      ],
+      "key": "c2305dcb-9527-5ca3-aa8e-562b462afecc"
+    },
+    {
+      "id": "w_sizer_inputs",
+      "type": "string",
+      "format": "text",
+      "label": "الأعمدة التي تُدخل العميلة قياسها (افصل بينها بعلامة |)",
+      "description": "أعمدة مثل المقاس الأمريكي أو البريطاني لا تُكتب هنا",
+      "icon": "sicon-format-text-alt",
+      "required": false,
+      "multilanguage": true,
+      "value": "الصدر | الخصر | الورك",
+      "placeholder": "الأعمدة التي تُدخل العميلة قياسها (افصل بينها بعلامة |)",
+      "key": "127f3b15-35ce-5b64-a489-43dfc4f11eaf"
+    },
+    {
       "id": "w_sizer_finder",
       "type": "boolean",
       "format": "switch",
@@ -470,6 +525,55 @@
       "value": true,
       "selected": true,
       "key": "a0bf184f-88eb-537b-aca5-4f2de9dc80be"
+    },
+    {
+      "id": "w_sizer_remember",
+      "type": "boolean",
+      "format": "switch",
+      "label": "تذكّر آخر قياسات أدخلتها العميلة في جهازها",
+      "description": null,
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": true,
+      "selected": true,
+      "key": "fe8a6130-f0f5-5ec9-aa84-6a0c5ddda79b"
+    },
+    {
+      "id": "w_sizer_inline",
+      "type": "boolean",
+      "format": "switch",
+      "label": "رابط «دليل المقاسات» بجانب خيار المقاس",
+      "description": "يظهر الرابط داخل صف اختيار المقاس بدل مكانه فوق الخيارات",
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": true,
+      "selected": true,
+      "key": "797d5043-7f47-5e97-aebe-5bf89c039ac6"
+    },
+    {
+      "id": "w_sizer_shapes",
+      "type": "boolean",
+      "format": "switch",
+      "label": "نصائح القصّة حسب شكل الجسم",
+      "description": null,
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": true,
+      "selected": true,
+      "key": "17dbc788-627a-54b0-a422-faa0222020be"
+    },
+    {
+      "id": "w_sizer_howto",
+      "type": "string",
+      "format": "textarea",
+      "label": "طريقة القياس (سطر لكل نصيحة)",
+      "description": null,
+      "icon": "sicon-format-text-alt",
+      "required": false,
+      "multilanguage": true,
+      "value": "الصدر: لفّي الشريط حول أعرض منطقة موازياً للأرض.\nالخصر: لفّي الشريط حول أضيق منطقة فوق السرة دون شدّ.\nالورك: قيسي أعرض منطقة مع ضم القدمين.",
+      "placeholder": "طريقة القياس (سطر لكل نصيحة)",
+      "key": "d1b57e0e-eeb9-51e3-aa20-892cbe3c61fe"
     },
     {
       "id": "w_sizer_note",
@@ -601,6 +705,70 @@
       "key": "247fd173-b8d8-5668-a565-065abd06812e"
     },
     {
+      "id": "w_rr",
+      "type": "boolean",
+      "format": "switch",
+      "label": "نموذج طلب استبدال أو استرجاع في صفحة الطلب",
+      "description": "تختار العميلة القطع والسبب والمقاس البديل، ويُرسل الطلب جاهزاً عبر واتساب",
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": true,
+      "selected": true,
+      "key": "24b35c84-ccbd-5b56-a490-0933a5e2c603"
+    },
+    {
+      "id": "w_rr_whatsapp",
+      "type": "string",
+      "format": "text",
+      "label": "رقم واتساب طلبات الاستبدال (اختياري)",
+      "description": "بصيغة دولية مثل 9665xxxxxxxx، وإن تُرك فارغاً يُستخدم واتساب المتجر",
+      "icon": "sicon-format-text-alt",
+      "required": false,
+      "multilanguage": false,
+      "value": "",
+      "placeholder": "رقم واتساب طلبات الاستبدال (اختياري)",
+      "key": "2a721355-532d-5bef-a5e4-1e20e6d13c5a"
+    },
+    {
+      "id": "w_rr_window",
+      "type": "string",
+      "format": "text",
+      "label": "مدة تقديم الطلب",
+      "description": null,
+      "icon": "sicon-format-text-alt",
+      "required": false,
+      "multilanguage": true,
+      "value": "خلال 3 أيام من الاستلام",
+      "placeholder": "مدة تقديم الطلب",
+      "key": "2554af0e-971a-5ec4-a070-82309fb6801c"
+    },
+    {
+      "id": "w_rr_fee",
+      "type": "string",
+      "format": "text",
+      "label": "رسوم شحن الاستبدال (اختياري)",
+      "description": null,
+      "icon": "sicon-format-text-alt",
+      "required": false,
+      "multilanguage": true,
+      "value": "",
+      "placeholder": "رسوم شحن الاستبدال (اختياري)",
+      "key": "0b7dc394-c881-517b-a27f-f20dccfd93f9"
+    },
+    {
+      "id": "w_rr_reasons",
+      "type": "string",
+      "format": "text",
+      "label": "أسباب الطلب (افصل بينها بعلامة |)",
+      "description": null,
+      "icon": "sicon-format-text-alt",
+      "required": false,
+      "multilanguage": true,
+      "value": "المقاس غير مناسب | القصّة غير مناسبة | اللون غير مناسب | وصلت قطعة مختلفة | يوجد عيب في القطعة | سبب آخر",
+      "placeholder": "أسباب الطلب (افصل بينها بعلامة |)",
+      "key": "b0b0a7e6-2fe5-530f-af24-28ee2c5f8a26"
+    },
+    {
       "type": "static",
       "format": "line",
       "id": "w-line-returns"
@@ -716,6 +884,70 @@
       "value": true,
       "selected": true,
       "key": "abfe912e-ecfe-5d04-a09a-e19052a60994"
+    },
+    {
+      "id": "w_thanks_support",
+      "type": "boolean",
+      "format": "switch",
+      "label": "زر خدمة العملاء عبر واتساب (برقم الطلب)",
+      "description": null,
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": true,
+      "selected": true,
+      "key": "07c79290-7160-53c3-a0dd-22f7165f8d91"
+    },
+    {
+      "id": "w_thanks_shipping",
+      "type": "string",
+      "format": "text",
+      "label": "مدة التجهيز والشحن (اختياري)",
+      "description": null,
+      "icon": "sicon-format-text-alt",
+      "required": false,
+      "multilanguage": true,
+      "value": "24 إلى 72 ساعة",
+      "placeholder": "مدة التجهيز والشحن (اختياري)",
+      "key": "b00323f6-d405-55ad-a726-37ceedac48f0"
+    },
+    {
+      "id": "w_thanks_coupon",
+      "type": "string",
+      "format": "text",
+      "label": "كود خصم للطلب القادم (اختياري)",
+      "description": null,
+      "icon": "sicon-format-text-alt",
+      "required": false,
+      "multilanguage": false,
+      "value": "",
+      "placeholder": "كود خصم للطلب القادم (اختياري)",
+      "key": "fd38fe23-f00e-55d3-aa62-b375b52c3837"
+    },
+    {
+      "id": "w_thanks_coupon_text",
+      "type": "string",
+      "format": "text",
+      "label": "نص بطاقة الكود",
+      "description": null,
+      "icon": "sicon-format-text-alt",
+      "required": false,
+      "multilanguage": true,
+      "value": "هدية لإطلالتك القادمة",
+      "placeholder": "نص بطاقة الكود",
+      "key": "85bfd2d1-1d1e-5676-ab51-d60e3dbf50bc"
+    },
+    {
+      "id": "w_thanks_care",
+      "type": "string",
+      "format": "textarea",
+      "label": "نصيحة بعد الاستلام (اختياري)",
+      "description": null,
+      "icon": "sicon-format-text-alt",
+      "required": false,
+      "multilanguage": true,
+      "value": "احتفظي بالتغليف والبطاقات حتى تتأكدي من المقاس، فهذا يسهّل الاستبدال وفق السياسة.",
+      "placeholder": "نصيحة بعد الاستلام (اختياري)",
+      "key": "bcd8fef0-4705-54a8-ad98-8f9141ef69dc"
     },
     {
       "type": "static",

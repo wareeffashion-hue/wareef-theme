@@ -30,12 +30,15 @@ for (const f of JSON.parse(readFileSync(join(root, 'twilight.json'), 'utf8')).se
 }
 settings.w_size_guide = null;
 settings.w_thanks_image = `${base}${photos}/square1.jpg`;
+settings.w_thanks_coupon = 'WAREEF5';
+settings.w_returns_link = '#policy';
 
 Twig.extend((T) => {
+  T.exports.extendFilter('asset', (v) => `${base}public/${v}`);
   T.exports.extendFunction('trans', (k, p) => String(get(ar, k) ?? k).replace(/:(\w+)/g, (m, n) => (p && p[n] != null ? p[n] : m)));
 });
 const partial = (p, ctx) => Twig.twig({ data: readFileSync(join(root, 'src/views', p), 'utf8'), rethrow: true }).render(ctx);
-const ctxBase = (over = {}) => ({ theme: { settings: { get: (k, d) => (k in over ? over[k] : (settings[k] ?? d)) } }, language: { code: 'ar' }, store: { name: 'وريف', logo: `${base}site/img/symbol.svg` } });
+const ctxBase = (over = {}) => ({ theme: { settings: { get: (k, d) => (k in over ? over[k] : (settings[k] ?? d)) } }, language: { code: 'ar' }, store: { name: 'وريف', url: '#', logo: `${base}site/img/symbol.svg`, contacts: { whatsapp: '966500000000' } } });
 const product = { id: 1, name: 'فستان تيفاني ثلجي بتطريز الكريستال', images: ['look3', 'look1', 'look2', 'look4', 'editorial'].map((n, i) => ({ id: i, url: `${base}${photos}/${n}.jpg`, alt: '' })) };
 
 const css = `${base}${process.env.PREVIEW_CSS || 'public/app.css'}`;
@@ -67,7 +70,10 @@ const thanks = () => shell(`<div class="container" style="max-width:1280px;margi
 
 mkdirSync(join(root, 'tools/.preview'), { recursive: true });
 writeFileSync(join(root, 'tools/.preview/app-preview.js'), "import '../../src/assets/js/wareef/core.js';\nimport '../../src/assets/js/wareef/components.js';\nwindow.Wareef.mount();\n");
-const pages = { 'pd-editorial': productPage('editorial'), 'pd-runway': productPage('runway'), 'pd-classic': productPage('classic'), thanks: thanks() };
+const orderPage = () => shell(`<div class="container" style="max-width:960px;margin:40px auto;padding:0 16px">${partial('pages/partials/w-returns-request.twig', { ...ctxBase(), order: { reference_id: 273543588, packages: [{ items: [
+  { name: 'فستان بيج أوف شولدر بتطريز يدوي', image: `${base}${photos}/look1.jpg`, quantity: 1, options: [{ name: 'المقاس', value: '12' }, { name: 'اللون', value: 'بيج' }] },
+  { name: 'فستان تيفاني ثلجي بتطريز الكريستال', image: `${base}${photos}/look3.jpg`, quantity: 1, options: [{ name: 'المقاس', value: 'M' }] }] }] } })}</div>`);
+const pages = { order: orderPage(), 'pd-editorial': productPage('editorial'), 'pd-runway': productPage('runway'), 'pd-classic': productPage('classic'), thanks: thanks() };
 const browser = await chromium.launch();
 for (const [name, html] of Object.entries(pages)) {
   const file = join(out, `${name}.html`); writeFileSync(file, html);
@@ -78,6 +84,12 @@ for (const [name, html] of Object.entries(pages)) {
     await p.evaluate(() => document.querySelectorAll('[data-w-reveal]').forEach((e) => e.classList.add('is-in')));
     await p.waitForTimeout(1600);
     await p.screenshot({ path: join(out, `${name}-${label}.png`), fullPage: true });
+    if (name === 'order') {
+      await p.evaluate(() => document.querySelector('.w-rr dialog').showModal());
+      await p.click('.w-rr__pick');
+      await p.waitForTimeout(500);
+      await p.screenshot({ path: join(out, `rr-${label}.png`) });
+    }
     if (name === 'pd-editorial') {
       await p.evaluate(() => document.querySelector('.w-returns')?.setAttribute('open', ''));
       await p.waitForTimeout(900);
