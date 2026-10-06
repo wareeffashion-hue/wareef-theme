@@ -77,7 +77,7 @@ const pages = { order: orderPage(), 'pd-editorial': productPage('editorial'), 'p
 const browser = await chromium.launch();
 for (const [name, html] of Object.entries(pages)) {
   const file = join(out, `${name}.html`); writeFileSync(file, html);
-  for (const [label, w, h] of [['desktop', 1440, 900], ['mobile', 390, 844]]) {
+  for (const [label, w, h] of (process.env.PREVIEW_VIEWPORT ? [['shot', ...process.env.PREVIEW_VIEWPORT.split('x').map(Number)]] : [['desktop', 1440, 900], ['mobile', 390, 844]])) {
     const p = await browser.newPage({ viewport: { width: w, height: h } });
     const errors = []; p.on('pageerror', (e) => errors.push(e.message));
     await p.goto(base + file.slice(root.length)); await p.waitForTimeout(3500);

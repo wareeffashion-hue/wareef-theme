@@ -84,7 +84,7 @@ for (const name of names) {
 <script type="module" src="${base}src/assets/js/wareef/core.js"></script>${js}</body></html>`;
   const file = join(out, `${name}.html`);
   writeFileSync(file, page);
-  for (const [label, w, h] of [['desktop', 1440, 900], ['mobile', 390, 844]]) {
+  for (const [label, w, h] of (process.env.PREVIEW_VIEWPORT ? [['shot', ...process.env.PREVIEW_VIEWPORT.split('x').map(Number)]] : [['desktop', 1440, 900], ['mobile', 390, 844]])) {
     const p = await browser.newPage({ viewport: { width: w, height: h } });
     const errors = [];
     p.on('pageerror', (e) => errors.push(e.message));
