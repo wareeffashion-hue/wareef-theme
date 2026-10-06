@@ -9,7 +9,7 @@
 [data-w-reveal='mask'].is-in > * { clip-path: inset(0 0 0 0); }
 [data-w-reveal='left'] { transform: translate3d(-40px, 0, 0); } [data-w-reveal='right'] { transform: translate3d(40px, 0, 0); }
 [data-w-reveal].is-in { opacity: 1; transform: none; }
-[data-w-split] .w-word { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; }
+[data-w-split] .w-word { display: inline-block; overflow: hidden; vertical-align: bottom; padding: .14em 0 .32em; margin: -.14em 0 -.32em; } // room for Arabic dots and marks above and below the line
 [data-w-split] .w-word > span { display: inline-block; transform: translateY(110%); transition: transform 1s var(--w-ease-out); transition-delay: calc(var(--wi, 0) * 60ms); }
 [data-w-split].is-in .w-word > span { transform: none; }
 body.w-anim-subtle { --w-dur: .6s; }

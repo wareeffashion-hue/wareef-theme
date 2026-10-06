@@ -69,13 +69,17 @@ customElements.define('salla-rating-stars',class extends HTMLElement{connectedCa
 </script>`;
 
 const css = `${base}${process.env.PREVIEW_CSS || "public/app.css"}`;
+// PREVIEW_FONT=gamila renders shots in the landing page's Gamila Arabic (site/fonts) instead of the system font.
+const fontCss = process.env.PREVIEW_FONT === 'gamila'
+  ? `<style>${[300, 400, 500, 700].map((w) => `@font-face{font-family:"Gamila Arabic";src:url(${base}site/fonts/gamila-${w}.woff2) format("woff2");font-weight:${w}}`).join('')}body,body :not(i):not([class*="icon"]):not([class^="sicon"]){font-family:"Gamila Arabic",system-ui,sans-serif!important}</style>`
+  : '';
 const browser = await chromium.launch();
 for (const name of names) {
   const schema = JSON.parse(readFileSync(join(root, 'src/schema/components', `${name}.json`), 'utf8'));
   const tpl = readFileSync(join(root, 'src/views/components/home', `${name}.twig`), 'utf8');
   const html = Twig.twig({ data: tpl, rethrow: true }).render({ component: defaults(schema), position: 0, componentId: name, language: { code: 'ar' }, theme: { is_rtl: true, settings: { get: (k, d) => d } }, store: { name: 'وريف', url: '#', contacts: {}, social: {} } });
   const js = existsSync(join(root, 'src/assets/js/wareef/components', `${name}.js`)) ? `<script type="module" src="${base}src/assets/js/wareef/components/${name}.js"></script>` : '';
-  const page = `<!doctype html><html lang="ar" dir="rtl" class="${dark ? 'dark' : ''}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="${css}"><style>body{font-family:system-ui,'Noto Sans Arabic',sans-serif}</style>${STUBS}</head>
+  const page = `<!doctype html><html lang="ar" dir="rtl" class="${dark ? 'dark' : ''}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="${css}"><style>body{font-family:system-ui,'Noto Sans Arabic',sans-serif}</style>${fontCss}${STUBS}</head>
 <body class="theme-wareef theme-raed w-style-${style} w-radius-${style === "soft" ? "soft" : "sharp"} w-anim-full w-card-editorial w-ratio-portrait">${html}
 <script type="module" src="${base}src/assets/js/wareef/core.js"></script>${js}</body></html>`;
   const file = join(out, `${name}.html`);

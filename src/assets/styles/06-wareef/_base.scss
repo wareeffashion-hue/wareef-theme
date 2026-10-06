@@ -7,7 +7,7 @@ body.theme-wareef .container { max-width: 1360px; }
 .w-kicker { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; letter-spacing: .28em; text-transform: uppercase; color: var(--w-muted); font-weight: 500; }
 .w-kicker::before { content: ''; width: 28px; height: 1px; background: currentColor; }
 .w-title { font-size: var(--w-h2); line-height: 1.2; font-weight: 700; letter-spacing: var(--w-track); margin: 10px 0 0; color: var(--w-text); }
-.w-display { font-size: var(--w-h1); line-height: 1.08; font-weight: 700; letter-spacing: -.01em; }
+.w-display { font-size: var(--w-h1); line-height: 1.25; font-weight: 700; letter-spacing: -.01em; }
 .w-lead { color: var(--w-text-2); font-size: clamp(15px, 1.2vw, 18px); line-height: 1.9; max-width: 640px; }
 .w-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: clamp(20px, 3vw, 40px); flex-wrap: wrap; }
 .w-head--center { flex-direction: column; align-items: center; text-align: center; }

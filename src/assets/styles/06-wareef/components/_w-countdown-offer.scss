@@ -23,7 +23,7 @@
     display: inline-flex; align-items: center; padding: 8px 16px; background: var(--w-gold); color: #fff;
     font-size: 13px; font-weight: 700; letter-spacing: .08em; border-radius: var(--w-radius-sm);
   }
-  &__title { font-size: var(--w-h1); line-height: 1.1; font-weight: 700; margin: 18px 0 0; color: inherit; letter-spacing: -.01em; }
+  &__title { font-size: var(--w-h1); line-height: 1.25; font-weight: 700; margin: 18px 0 0; color: inherit; letter-spacing: -.01em; }
   &__text { margin: 18px 0 0; max-width: 520px; line-height: 1.9; font-size: clamp(15px, 1.15vw, 18px); opacity: .8; }
   &__cta { margin-top: 30px; }
   &--dark &__cta { --b: #fff; --i: #111; }

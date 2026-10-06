@@ -15,7 +15,7 @@
   &__content { max-width: 920px; }
   &__kicker { color: rgba(255,255,255,.82); &::before { background: var(--w-gold); width: 40px; } }
   &__title {
-    font-size: clamp(46px, 8.4vw, 132px); line-height: 1.02; font-weight: 700; letter-spacing: -.015em;
+    font-size: clamp(46px, 8.4vw, 132px); line-height: 1.22; font-weight: 700; letter-spacing: -.015em;
     margin: 18px 0 0; color: #fff; text-wrap: balance;
   }
   &__lead { margin-top: 22px; max-width: 520px; font-size: clamp(15px, 1.25vw, 19px); line-height: 1.9; color: rgba(255,255,255,.84); }
