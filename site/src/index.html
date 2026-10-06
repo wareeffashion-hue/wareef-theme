@@ -154,8 +154,9 @@ section { position: relative; padding-block: clamp(72px, 10vw, 140px); }
 .cell p { margin: 6px 0 0; color: var(--silver); font-size: 14px; }
 .demo-words { font: 700 clamp(26px, 3vw, 38px)/1.2 var(--f-display); }
 .demo-words .w { display: inline-block; overflow: hidden; vertical-align: bottom; }
-.demo-words .w span { display: inline-block; transform: translateY(105%); transition: transform 1s var(--ease); transition-delay: calc(var(--i) * 80ms); }
-.cell.play .demo-words .w span { transform: none; }
+.demo-words .w span { display: inline-block; transition: transform 1s var(--ease); transition-delay: calc(var(--i) * 80ms); }
+/* Visible at rest; .prep drops the words below their line just before a replay. */
+.cell.prep .demo-words .w span { transform: translateY(105%); transition: none; }
 .demo-count { font: 700 clamp(40px, 5vw, 64px)/1 var(--f-display); font-variant-numeric: tabular-nums; }
 .flip { display: flex; gap: 8px; direction: ltr; justify-content: flex-end; }
 .flip b { width: 54px; height: 64px; border-radius: 12px; display: grid; place-items: center; background: var(--midnight-3); border: 1px solid var(--line); font: 600 28px/1 var(--f-mono); }
@@ -274,7 +275,7 @@ footer img { height: 28px; width: auto; }
       <div>
         <span class="eyebrow">ثيم أزياء لمنصة سلة</span>
         <h1><span class="w" style="--i:0">ثيمٌ</span> <span class="w" style="--i:1">يُلبِسُ</span> <span class="w" style="--i:2">متجرك</span> <span class="w holo-text" style="--i:3">الأناقة.</span></h1>
-        <p class="lead">وريف ثيم سلة صُمّم لمتاجر العبايات والأزياء العربية: 45 عنصراً للصفحة الرئيسية، حركة سينمائية هادئة، وضع داكن، وتجربة عربية أصيلة من أول نقطة.</p>
+        <p class="lead">وريف ثيم سلة صُمّم لمتاجر الأزياء والفساتين والعبايات: 45 عنصراً للصفحة الرئيسية، حركة سينمائية هادئة، وضع داكن، وتجربة عربية أصيلة من أول نقطة.</p>
         <div class="hero-cta">
           <a class="btn holo" href="#components">استعرض العناصر <span class="arr">←</span></a>
           <a class="btn" href="#styles">جرّب الطوابع</a>
@@ -428,18 +429,18 @@ footer img { height: 28px; width: auto; }
   <section id="product">
     <div class="wrap pd">
       <div class="pd-mock" aria-label="مثال لصفحة منتج">
-        <div class="pd-img"><img src="{{IMG:hero-m.webp}}" alt="" width="360" height="779" style="object-position:30% 40%"></div>
+        <div class="pd-img"><img src="{{IMG:product.webp}}" alt="فستان تيفاني ثلجي من وريف" width="600" height="800"></div>
         <div class="pd-info">
           <span class="guide">دليل المقاسات</span>
-          <h4>عباية كريب مطرزة يدوياً</h4>
-          <span class="price">890 ر.س</span>
-          <div class="pd-sizes" aria-label="المقاسات"><span>52</span><span class="on">54</span><span>56</span><span>58</span></div>
+          <h4>فستان تيفاني ثلجي بتطريز الكريستال</h4>
+          <span class="price">949 ر.س</span>
+          <div class="pd-sizes" aria-label="المقاسات"><span>XS</span><span class="on">S</span><span>M</span><span>L</span></div>
           <div class="pd-buy">أضيفي إلى السلة</div>
           <div class="pd-box"><b>يصلك خلال 2–5 أيام عمل</b><span>دفع آمن · استبدال سهل · خامات أصلية</span></div>
         </div>
         <div class="pd-pop" aria-hidden="true">
           <b style="font-family:var(--f-display)">دليل المقاسات</b>
-          <table><tr><th>المقاس</th><th>الطول</th><th>الصدر</th></tr><tr><td>52</td><td>132</td><td>96</td></tr><tr><td>54</td><td>137</td><td>100</td></tr><tr><td>56</td><td>142</td><td>104</td></tr></table>
+          <table><tr><th>المقاس</th><th>الصدر</th><th>الخصر</th></tr><tr><td>XS</td><td>82</td><td>64</td></tr><tr><td>S</td><td>86</td><td>68</td></tr><tr><td>M</td><td>90</td><td>72</td></tr></table>
         </div>
       </div>
       <div>
@@ -448,7 +449,7 @@ footer img { height: 28px; width: auto; }
         <ul class="checks">
           <li><div><b>دليل مقاسات في نافذة أنيقة</b><span>صورة جدول المقاسات يرفعها التاجر مرة وتظهر في كل المنتجات.</span></div></li>
           <li><div><b>وعد التوصيل ومزايا الثقة</b><span>سطر توصيل ومزايا قصيرة تحت زر الشراء مباشرة، تُعدّل من الإعدادات.</span></div></li>
-          <li><div><b>صور طولية للعبايات</b><span>نسبة 3:4 أو 2:3 لبطاقات المنتجات، فلا تُقصّ الأطوال.</span></div></li>
+          <li><div><b>صور طولية للفساتين والعبايات</b><span>نسبة 3:4 أو 2:3 لبطاقات المنتجات، فلا تُقصّ الأطوال.</span></div></li>
           <li><div><b>كل مزايا سلة تعمل كما هي</b><span>السلة، المفضلة، الفلاتر، الولاء، التقسيط والهدايا: مبني على الثيم الرسمي من سلة.</span></div></li>
         </ul>
       </div>
@@ -612,7 +613,7 @@ document.documentElement.lang = 'ar'; document.documentElement.dir = 'rtl';
     el.innerHTML = el.textContent.split(' ').map((w, i) => `<span class="w"><span style="--i:${i}">${w}</span></span>`).join(' ');
   });
   const cell = document.getElementById('cell-words');
-  const replay = () => { cell.classList.remove('play'); void cell.offsetWidth; requestAnimationFrame(() => cell.classList.add('play')); };
+  const replay = () => { if (still()) return; cell.classList.add('prep'); void cell.offsetWidth; requestAnimationFrame(() => cell.classList.remove('prep')); };
   const count = document.getElementById('count');
   const runCount = () => {
     if (still()) { count.textContent = '1,250'; return; }
@@ -646,6 +647,6 @@ document.documentElement.lang = 'ar'; document.documentElement.dir = 'rtl';
       io.unobserve(e.target);
     }), { threshold: .15 });
     targets.forEach((el) => io.observe(el));
-  } else { cell.classList.add('play'); }
+  }
 })();
 </script>

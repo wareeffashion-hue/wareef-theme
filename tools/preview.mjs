@@ -27,10 +27,16 @@ const out = resolve(root, outIdx > -1 ? args[outIdx + 1] : 'tools/.preview');
 const names = args.filter((a, i) => !a.startsWith('--') && args[i - 1] !== '--out' && args[i - 1] !== '--style');
 mkdirSync(out, { recursive: true });
 const ar = JSON.parse(readFileSync(join(root, 'src/locales/ar.json'), 'utf8'));
+// PREVIEW_PHOTOS=tools/demo-photos swaps placeholders for real brand photos (screenshots only; never shipped).
+const PHOTOS = process.env.PREVIEW_PHOTOS ? process.env.PREVIEW_PHOTOS.replace(/\/$/, '') + '/' : null;
+const imgDir = () => PHOTOS || 'src/assets/images/wareef/';
+const NAMES = process.env.PREVIEW_PHOTOS
+  ? [['فستان تيفاني ثلجي بتطريز الكريستال', 949], ['فستان أوف وايت ملكي بتطريز الخرز', 999], ['فستان سماوي بزهور ثلاثية الأبعاد', 269], ['فستان شامبين لامع بكسرات', 369], ['فستان سهرة فضي لامع', 499], ['فستان وردي بكورسية مطرزة', 269], ['فستان بني شوكولا بكسرات شيفون', 495], ['فستان وردي بشك الكريستال', 895]]
+  : Array.from({ length: 8 }, (_, i) => [`عباية مطرزة ${i + 1}`, 450 + i * 50]);
 const get = (o, path) => path.split('.').reduce((a, k) => (a == null ? a : a[k]), o);
 
 Twig.extend((T) => {
-  T.exports.extendFilter('asset', (v) => `${base}public/${v}`);
+  T.exports.extendFilter('asset', (v) => (PHOTOS && String(v).startsWith('images/wareef/') ? `${base}${PHOTOS}${String(v).split('/').pop()}` : `${base}public/${v}`));
   T.exports.extendFilter('cdn', (v) => v);
   T.exports.extendFilter('money', (v) => `${Number(v || 0).toLocaleString('ar-SA')} ر.س`);
   T.exports.extendFunction('trans', (k) => get(ar, k) ?? k);
@@ -43,8 +49,8 @@ function defaults(schema) {
       const prefix = `${f.id}.`;
       return (f.value || []).map((row) => Object.fromEntries(Object.entries(row).map(([k, v]) => [k.startsWith(prefix) ? k.slice(prefix.length) : k, v])));
     }
-    if (f.type === 'items' && f.source === 'products') return [1, 2, 3, 4].map((i) => ({ id: i, name: `عباية مطرزة ${i}`, url: '#', image: { url: `${base}src/assets/images/wareef/look${i}.jpg` }, price: 450 + i * 50, regular_price: 600, sale_price: 450 + i * 50, is_on_sale: i % 2 === 0 }));
-    if (f.type === 'items' && f.source === 'categories') return f.multichoice ? [1, 2, 3, 4].map((i) => ({ id: i, name: ['عبايات', 'جلابيات', 'أطقم', 'شالات'][i - 1], url: '#', image: `${base}src/assets/images/wareef/look${i}.jpg` })) : { id: 1, name: 'عبايات', url: '#' };
+    if (f.type === 'items' && f.source === 'products') return [1, 2, 3, 4].map((i) => ({ id: i, name: NAMES[i - 1][0], url: '#', image: { url: `${base}${imgDir()}look${i}.jpg` }, price: NAMES[i - 1][1], regular_price: NAMES[i - 1][1] + 150, sale_price: NAMES[i - 1][1], is_on_sale: i % 2 === 0 }));
+    if (f.type === 'items' && f.source === 'categories') return f.multichoice ? [1, 2, 3, 4].map((i) => ({ id: i, name: (PHOTOS ? ['فساتين سهرة', 'فساتين ناعمة', 'أطقم', 'إطلالات المناسبات'] : ['عبايات', 'جلابيات', 'أطقم', 'شالات'])[i - 1], url: '#', image: `${base}${imgDir()}look${i}.jpg` })) : { id: 1, name: 'عبايات', url: '#' };
     if (f.type === 'items' && f.format === 'variable-list') return 'https://example.com/';
     if (f.type === 'items') return (f.selected && f.selected[0] && f.selected[0].value) || '';
     if (f.type === 'boolean') return f.value !== false;
@@ -54,7 +60,8 @@ function defaults(schema) {
 }
 
 const STUBS = `<script>
-const card=(i)=>'<div style="min-width:0"><div style="aspect-ratio:3/4;background:url(${base}src/assets/images/wareef/look'+((i%4)+1)+'.jpg) center/cover;border-radius:var(--w-radius)"></div><div style="padding:10px 2px;font-size:14px">عباية مطرزة '+(i+1)+'</div><div style="font-weight:700;font-size:14px">'+(450+i*50)+' ر.س</div></div>';
+const N=${JSON.stringify(NAMES)};
+const card=(i)=>'<div style="min-width:0"><div style="aspect-ratio:3/4;background:url(${base}${imgDir()}look'+((i%4)+1)+'.jpg) center/cover;border-radius:var(--w-radius)"></div><div style="padding:10px 2px;font-size:14px">'+N[i%8][0]+'</div><div style="font-weight:700;font-size:14px">'+N[i%8][1]+' ر.س</div></div>';
 class Products extends HTMLElement{connectedCallback(){const n=+this.getAttribute('limit')||4;this.innerHTML='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:20px">'+Array.from({length:Math.min(n,8)},(_,i)=>card(i)).join('')+'</div>';}}
 customElements.define('salla-products-slider',class extends Products{});customElements.define('salla-products-list',class extends Products{});
 customElements.define('salla-slider',class extends HTMLElement{connectedCallback(){this.style.display='block';const s=this.querySelector('[slot=items]');if(s){s.style.display='flex';s.style.gap='16px';s.style.overflowX='auto';}}});
